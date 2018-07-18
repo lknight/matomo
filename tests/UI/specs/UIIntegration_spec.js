@@ -677,9 +677,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
         testEnvironment.save();
 
-        expect.screenshot('admin_plugins_no_internet').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
-        }, done);
+        await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
+
+        pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('admin_plugins_no_internet');
     });
 
     it('should load the config file page correctly', async function() {
