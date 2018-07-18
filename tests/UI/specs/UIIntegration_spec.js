@@ -671,7 +671,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('admin_plugins');
     });
 
-    it('should load the plugins admin page correctly', function (done) {
+    it('should load the plugins admin page correctly', async function () {
         testEnvironment.overrideConfig('General', {
             enable_internet_features: 0
         });
