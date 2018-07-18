@@ -13,8 +13,9 @@ describe("UsersManager", function () {
 
     var url = "?module=UsersManager&action=index";
 
-    async function assertScreenshotEquals(screenshotName, done, test)
+    async function assertScreenshotEquals(screenshotName, test)
     {
+        await test();
         var content = await page.$('#content');
         expect(await content.screenshot()).to.matchImage(screenshotName);
     }
