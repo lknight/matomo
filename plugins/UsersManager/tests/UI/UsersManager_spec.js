@@ -48,46 +48,46 @@ describe("UsersManager", function () {
     });
 
     it("should show only users having access to same site", async function() {
-        await assertScreenshotEquals("loaded_as_admin", function (page) {
+        await assertScreenshotEquals("loaded_as_admin", async function (page) {
             await page.goto(url);
         });
     });
 
     it("should open give view access form when clicking on button", async function() {
-        await assertScreenshotEquals("adminuser_give_view_access_form_opened", function (page) {
+        await assertScreenshotEquals("adminuser_give_view_access_form_opened", async function (page) {
             await openGiveAccessForm(page);
         });
     });
 
     it("should show an error when nothing entered", async function() {
-        await assertScreenshotEquals("adminuser_give_view_access_no_user_entered", function (page) {
+        await assertScreenshotEquals("adminuser_give_view_access_no_user_entered", async function (page) {
             await submitGiveAccessForm(page);
         });
     });
 
     it("should show an error when no such user found", async function() {
-        await assertScreenshotEquals("adminuser_give_view_access_user_not_found", function (page) {
+        await assertScreenshotEquals("adminuser_give_view_access_user_not_found", async function (page) {
             await setLoginOrEmailForGiveAccessForm(page, 'anyNoNExistingUser');
             await submitGiveAccessForm(page);
         });
     });
 
     it("should show an error if user already has access", async function() {
-        await assertScreenshotEquals("adminuser_give_view_access_user_already_has_access", function (page) {
+        await assertScreenshotEquals("adminuser_give_view_access_user_already_has_access", async function (page) {
             await setLoginOrEmailForGiveAccessForm(page, 'login2');
             await submitGiveAccessForm(page);
         });
     });
 
     it("should add a user by login", async function() {
-        await assertScreenshotEquals("adminuser_give_view_access_via_login", function (page) {
+        await assertScreenshotEquals("adminuser_give_view_access_via_login", async function (page) {
             await setLoginOrEmailForGiveAccessForm(page, 'login3');
             await submitGiveAccessForm(page);
         });
     });
 
     it("should add a user by email", async function() {
-        await assertScreenshotEquals("adminuser_give_view_access_via_email", function (page) {
+        await assertScreenshotEquals("adminuser_give_view_access_via_email", async function (page) {
             await page.goto(url);
             await openGiveAccessForm(page);
             await setLoginOrEmailForGiveAccessForm(page, 'login4@example.com');
@@ -96,7 +96,7 @@ describe("UsersManager", function () {
     });
 
     it("should ask for confirmation when all sites selected", async function() {
-        await assertScreenshotEquals("adminuser_all_users_loaded", function (page) {
+        await assertScreenshotEquals("adminuser_all_users_loaded", async function (page) {
             page.goto(url + '&idSite=all');
         });
     });
