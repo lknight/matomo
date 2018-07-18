@@ -32,7 +32,8 @@ describe("Marketplace", function () {
     async function captureSelector(screenshotName, selector)
     {
         await page.waitForFunction("$('" + selector + "').length > 0");
-        await page.waitFor(100); // wait for animations
+        await page.waitFor(500); // wait for animations
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
 
@@ -213,11 +214,10 @@ describe("Marketplace", function () {
     it('should show a success message when valid license key entered', async function() {
         setEnvironment(mode, noLicense);
 
-        await page.load(pluginsUrl);
+        await page.goto(pluginsUrl);
         await page.type('#license_key', 'valid');
-        await page.execCallback(function () {
-            setEnvironment(mode, validLicense);
-        });
+
+        setEnvironment(mode, validLicense);
         await page.click('#submit_license_key input');
 
         await captureMarketplace(mode + '_valid_license_key_entered');
