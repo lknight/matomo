@@ -13,27 +13,28 @@ describe("UsersManager", function () {
 
     var url = "?module=UsersManager&action=index";
 
-    function assertScreenshotEquals(screenshotName, done, test)
+    async function assertScreenshotEquals(screenshotName, done, test)
     {
-        expect.screenshot(screenshotName).to.be.captureSelector('#content', test, done);
+        var content = await page.$('#content');
+        expect(await content.screenshot()).to.matchImage(screenshotName);
     }
 
-    function openGiveAccessForm(page) {
-        page.click('#showGiveViewAccessForm');
+    async function openGiveAccessForm(page) {
+        await page.click('#showGiveViewAccessForm');
     }
 
-    function setLoginOrEmailForGiveAccessForm(page, loginOrEmail)
+    async function setLoginOrEmailForGiveAccessForm(page, loginOrEmail)
     {
-        page.evaluate(function () {
+        await page.evaluate(function () {
             $('#user_invite').val('');
         });
-        page.sendKeys('#user_invite', loginOrEmail);
+        await page.type('#user_invite', loginOrEmail);
     }
 
-    function submitGiveAccessForm(page)
+    async function submitGiveAccessForm(page)
     {
-        page.click('#giveUserAccessToViewReports');
-        page.wait(1000); // we wait in case error notification is still fading in and not fully visible yet
+        await page.click('#giveUserAccessToViewReports');
+        await page.waitFor(500); // we wait in case error notification is still fading in and not fully visible yet
     }
 
     before(function () {
@@ -47,64 +48,65 @@ describe("UsersManager", function () {
     });
 
     it("should show only users having access to same site", async function() {
-        assertScreenshotEquals("loaded_as_admin", done, function (page) {
-            page.load(url);
+        await assertScreenshotEquals("loaded_as_admin", function (page) {
+            await page.goto(url);
         });
     });
 
     it("should open give view access form when clicking on button", async function() {
-        assertScreenshotEquals("adminuser_give_view_access_form_opened", done, function (page) {
-            openGiveAccessForm(page);
+        await assertScreenshotEquals("adminuser_give_view_access_form_opened", function (page) {
+            await openGiveAccessForm(page);
         });
     });
 
     it("should show an error when nothing entered", async function() {
-        assertScreenshotEquals("adminuser_give_view_access_no_user_entered", done, function (page) {
-            submitGiveAccessForm(page);
+        await assertScreenshotEquals("adminuser_give_view_access_no_user_entered", function (page) {
+            await submitGiveAccessForm(page);
         });
     });
 
     it("should show an error when no such user found", async function() {
-        assertScreenshotEquals("adminuser_give_view_access_user_not_found", done, function (page) {
-            setLoginOrEmailForGiveAccessForm(page, 'anyNoNExistingUser');
-            submitGiveAccessForm(page);
+        await assertScreenshotEquals("adminuser_give_view_access_user_not_found", function (page) {
+            await setLoginOrEmailForGiveAccessForm(page, 'anyNoNExistingUser');
+            await submitGiveAccessForm(page);
         });
     });
 
     it("should show an error if user already has access", async function() {
-        assertScreenshotEquals("adminuser_give_view_access_user_already_has_access", done, function (page) {
-            setLoginOrEmailForGiveAccessForm(page, 'login2');
-            submitGiveAccessForm(page);
+        await assertScreenshotEquals("adminuser_give_view_access_user_already_has_access", function (page) {
+            await setLoginOrEmailForGiveAccessForm(page, 'login2');
+            await submitGiveAccessForm(page);
         });
     });
 
     it("should add a user by login", async function() {
-        assertScreenshotEquals("adminuser_give_view_access_via_login", done, function (page) {
-            setLoginOrEmailForGiveAccessForm(page, 'login3');
-            submitGiveAccessForm(page);
+        await assertScreenshotEquals("adminuser_give_view_access_via_login", function (page) {
+            await setLoginOrEmailForGiveAccessForm(page, 'login3');
+            await submitGiveAccessForm(page);
         });
     });
 
     it("should add a user by email", async function() {
-        assertScreenshotEquals("adminuser_give_view_access_via_email", done, function (page) {
-            page.load(url);
-            openGiveAccessForm(page);
-            setLoginOrEmailForGiveAccessForm(page, 'login4@example.com');
-            submitGiveAccessForm(page);
+        await assertScreenshotEquals("adminuser_give_view_access_via_email", function (page) {
+            await page.goto(url);
+            await openGiveAccessForm(page);
+            await setLoginOrEmailForGiveAccessForm(page, 'login4@example.com');
+            await submitGiveAccessForm(page);
         });
     });
 
     it("should ask for confirmation when all sites selected", async function() {
-        assertScreenshotEquals("adminuser_all_users_loaded", done, function (page) {
-            page.load(url + '&idSite=all');
+        await assertScreenshotEquals("adminuser_all_users_loaded", function (page) {
+            page.goto(url + '&idSite=all');
         });
     });
 
     it("should ask for confirmation when all sites selected", async function() {
-        expect.screenshot("adminuser_all_users_confirmation").to.be.captureSelector('.modal.open', function (page) {
-            openGiveAccessForm(page);
-            setLoginOrEmailForGiveAccessForm(page, 'login5@example.com');
-            submitGiveAccessForm(page);
-        }, done);
+        await openGiveAccessForm(page);
+        await setLoginOrEmailForGiveAccessForm(page, 'login5@example.com');
+        await submitGiveAccessForm(page);
+
+        var content = await page.$('.modal.open');
+        expect(await content.screenshot()).to.matchImage('adminuser_all_users_confirmation');
     });
 });
