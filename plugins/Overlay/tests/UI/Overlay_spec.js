@@ -88,11 +88,14 @@ describe("Overlay", function () {
 
     it("should change date range when period changed", async function() {
         await page.waitForSelector('#overlayDateRangeSelect');
+        console.log(1);
         await page.webpage.evaluate(function () {
             $('#overlayDateRangeSelect').val('day;yesterday').trigger('change');
         });
+        console.log(2);
 
         await removeOptOutIframe(page);
+        console.log(3);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('period_change');
     });
 
