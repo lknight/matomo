@@ -88,19 +88,18 @@ describe("Overlay", function () {
 
     it("should change date range when period changed", async function() {
         await page.waitForSelector('#overlayDateRangeSelect');
-        console.log(1);
         await page.webpage.evaluate(function () {
             $('#overlayDateRangeSelect').val('day;yesterday').trigger('change');
         });
-        console.log(2);
+        await page.waitForNetworkIdle();
 
         await removeOptOutIframe(page);
-        console.log(3);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('period_change');
     });
 
     it("should open row evolution popup when row evolution link clicked", async function() {
         await page.click('#overlayRowEvolution');
+        await page.waitForNetworkIdle();
         await page.evaluate(function () {
             $('.jqplot-xaxis').hide(); // xaxis will change every day so hide it
         });
@@ -112,6 +111,7 @@ describe("Overlay", function () {
     it("should open transitions popup when transitions link clicked", async function() {
         await page.click('button.ui-dialog-titlebar-close');
         await page.click('#overlayTransitions');
+        await page.waitForNetworkIdle();
 
         await removeOptOutIframe(page);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('transitions');
