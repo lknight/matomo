@@ -79,7 +79,8 @@ describe("Overlay", function () {
                 y: iframe.offset().top + innerOffset.top
             };
         });
-        await page.mouse.move(pos.x, pos.y);
+        await page.mouse.click(pos.x, pos.y);
+        await page.waitForNetworkIdle();
 
         await removeOptOutIframe(page);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('page_change');
@@ -87,7 +88,7 @@ describe("Overlay", function () {
 
     it("should change date range when period changed", async function() {
         await page.waitForSelector('#overlayDateRangeSelect');
-        await page.evaluate(function () {
+        await page.webpage.evaluate(function () {
             $('#overlayDateRangeSelect').val('day;yesterday').trigger('change');
         });
 
