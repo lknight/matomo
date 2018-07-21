@@ -138,7 +138,7 @@ describe("PrivacyManager", function () {
     });
 
     it('should anonymize ip and visit column', async function() {
-        await page.click('[name=anonymizeIp] label');
+        await page.click('[name="anonymizeIp"] label');
         await page.waitFor(500);
         await selectVisitColumn(page, 'config_browser_name');
         await selectVisitColumn(page, 'config_cookie');
@@ -168,8 +168,8 @@ describe("PrivacyManager", function () {
 
     it('should prefill anonymize location and action column', async function() {
         await loadActionPage(page, 'privacySettings');
-        await page.click('[name=anonymizeLocation] label');
-        await page.click('[name=anonymizeTheUserId] label');
+        await page.click('[name="anonymizeLocation"] label');
+        await page.click('[name="anonymizeTheUserId"] label');
         await page.waitFor(500);
         await selectActionColumn(page, 'time_spent_ref_action');
         await selectActionColumn(page, 'idaction_content_name');
@@ -190,7 +190,7 @@ describe("PrivacyManager", function () {
         await page.click('.form-group #anonymizeSite .title');
         await page.waitFor(1000);
         await page.click(".form-group #anonymizeSite [title='Site 1']");
-        await page.click('[name=anonymizeIp] label');
+        await page.click('[name="anonymizeIp"] label');
         await page.evaluate(function () {
             $('input.anonymizeStartDate').val('2017-01-01').change();
             $('input.anonymizeEndDate').val('2017-02-14').change();
