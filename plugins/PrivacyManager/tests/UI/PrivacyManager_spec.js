@@ -40,7 +40,8 @@ describe("PrivacyManager", function () {
 
     async function selectModalButton(page, button)
     {
-        await page.click('.modal.open .modal-footer a:contains('+button+')');
+        var elem = await page.jQuery('.modal.open .modal-footer a:contains('+button+')');
+        await elem.click();
     }
 
     async function findDataSubjects(page)
@@ -51,6 +52,7 @@ describe("PrivacyManager", function () {
     async function anonymizePastData(page)
     {
         await page.click('.anonymizePastData .btn');
+        await page.waitFor(500); // wait for animation
     }
 
     async function deleteDataSubjects(page)
@@ -71,7 +73,9 @@ describe("PrivacyManager", function () {
         await page.evaluate(function () {
             $('.selectedVisitColumns:last input.select-dropdown').click();
         });
-        var elem = await page.jQuery('.selectedVisitColumns:last .dropdown-content li:contains(' + title + ')');
+        var selector = '.selectedVisitColumns:last .dropdown-content li:contains(' + title + ')';
+        await page.waitForFunction('$("'+selector+'").length > 0');
+        var elem = await page.jQuery(selector);
         await elem.click();
     }
 
@@ -224,14 +228,16 @@ describe("PrivacyManager", function () {
     });
 
     it('should be able to show visitor profile', async function() {
-        await page.click('.visitorLogTooltip:first');
+        var elem = await page.jQuery('.visitorLogTooltip:first');
+        await elem.click();
 
         await capturePage('gdpr_tools_visits_showprofile');
     });
 
     it('should be able to add IP to segment search with one click', async function() {
         await page.click('#Piwik_Popover .visitor-profile-close');
-        await page.click('.visitorIp:first a');
+        var elem = await page.jQuery('.visitorIp:first a');
+        await elem.click();
 
         await capturePage('gdpr_tools_enrich_segment_by_ip');
     });
