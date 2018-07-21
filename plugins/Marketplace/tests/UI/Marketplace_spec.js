@@ -32,8 +32,8 @@ describe("Marketplace", function () {
     async function captureSelector(screenshotName, selector)
     {
         await page.waitForFunction("$('" + selector + "').length > 0");
-        await page.waitFor(500); // wait for animations
         await page.waitForNetworkIdle();
+        await page.waitFor(500); // wait for animations
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
 
