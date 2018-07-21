@@ -47,6 +47,7 @@ describe("PrivacyManager", function () {
     async function findDataSubjects(page)
     {
         await page.click('.findDataSubjects .btn');
+        await page.waitForNetworkIdle();
     }
 
     async function anonymizePastData(page)
