@@ -16,25 +16,17 @@ describe("MultiSitesTest", function () {
     var createdSiteId = null;
 
     before(async function() {
-        var callback = function (error, response) {
-            if (error) {
-                done(error, response);
-                return;
-            }
-            
-            createdSiteId = response.value;
-            done();
-        };
-
-        testEnvironment.callApi("SitesManager.addSite", {
+        var response = await testEnvironment.callApi("SitesManager.addSite", {
             siteName: '%3CMy%20website%22%27%3E%3B%2C%3F with a very very very very long stupid name',
-            urls: 'http%3A%2F%2Fpiwik.org'},
-        callback);
+            urls: 'http%3A%2F%2Fpiwik.org'
+        });
+
+        createdSiteId = response.value;
     });
 
     after(async function() {
         if (createdSiteId) {
-            testEnvironment.callApi("SitesManager.deleteSite", {idSite: createdSiteId}, done);
+            await testEnvironment.callApi("SitesManager.deleteSite", {idSite: createdSiteId}, done);
         }
     });
 
