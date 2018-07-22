@@ -298,6 +298,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         elem = await page.jQuery('.dataTable .subDataTable .value:contains(ImageAd)');
         await elem.click();
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('actions_content_name_piece');
@@ -316,6 +317,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         elem = await page.jQuery('.dataTable .subDataTable .value:contains(Click NOW)');
         await elem.click();
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('actions_content_piece_name');
@@ -360,6 +362,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the referrers > websites correctly', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuWebsitesOnly");
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('referrers_websites');
@@ -427,7 +430,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
         await icon.click();
 
-        await page.waitForSelector('.ui-dialog');
+        await page.waitForSelector('.rowEvolutionPopover');
         await page.waitForNetworkIdle();
 
         dialog = await page.$('.ui-dialog');
@@ -493,6 +496,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the example ui > treemap page correctly', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Treemap");
+        await page.waitFor(500);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('exampleui_treemap');
