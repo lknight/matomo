@@ -195,6 +195,7 @@ describe("Dashboard", function () {
         await input.type('newname');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('rename');
     });
