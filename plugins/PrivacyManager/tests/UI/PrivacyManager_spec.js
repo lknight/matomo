@@ -42,6 +42,7 @@ describe("PrivacyManager", function () {
     {
         var elem = await page.jQuery('.modal.open .modal-footer a:contains('+button+')');
         await elem.click();
+        await page.waitFor(500);
     }
 
     async function findDataSubjects(page)
