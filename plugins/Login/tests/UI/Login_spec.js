@@ -27,6 +27,8 @@ describe("Login", function () {
 
     it("should load correctly", async function() {
         await page.goto("");
+        await page.waitForNetworkIdle();
+        await page.waitFor(200);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
