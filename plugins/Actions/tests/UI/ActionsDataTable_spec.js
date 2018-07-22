@@ -100,6 +100,7 @@ describe("ActionsDataTable", function () {
 
     it("should show the search when clicking on the search icon", async function() {
         await page.click('.dataTableAction.searchAction');
+        await page.waitFor(100);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search_visible');
     });
 
