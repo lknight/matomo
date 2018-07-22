@@ -77,6 +77,7 @@ describe("Live", function () {
     it('should show action tooltip', async function() {
         action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
         await action.hover();
+        await page.waitFor(200); // wait for tooltip to show up
 
         const tooltip = await page.$('.ui-tooltip');
         expect(await tooltip.screenshot()).to.matchImage('visitor_profile_action_tooltip');
