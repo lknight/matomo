@@ -189,6 +189,8 @@ describe("Marketplace", function () {
         await page.type('#license_key', 'invalid');
         await page.click('.marketplace-paid-intro'); // click outside so change event is triggered
         await page.click('#submit_license_key input');
+        await page.waitForNetworkIdle();
+        await page.waitFor(200);
 
         await captureWithNotification(mode + '_invalid_license_key_entered');
     });
