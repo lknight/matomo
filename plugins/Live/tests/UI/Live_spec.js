@@ -24,14 +24,14 @@ describe("Live", function () {
 
         await page.waitForNetworkIdle();
 
-        const report = await page.$('.reporting-page');
+        var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log');
     });
 
     it('should expand grouped actions', async function() {
         await page.click('.dataTableVizVisitorLog .repeat.icon-refresh');
 
-        const report = await page.$('.dataTableVizVisitorLog .card.row:first-child');
+        var report = await page.$('.dataTableVizVisitorLog .card.row:first-child');
         expect(await report.screenshot()).to.matchImage('visitor_log_expand_actions');
     });
 
@@ -43,7 +43,7 @@ describe("Live", function () {
         await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
 
-        const dialog = await page.$('.ui-dialog');
+        var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile');
     });
 
@@ -54,7 +54,7 @@ describe("Live", function () {
 
         await page.mouse.move(0, 0);
 
-        const dialog = await page.$('.ui-dialog');
+        var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_actions_hidden');
     });
 
@@ -63,23 +63,23 @@ describe("Live", function () {
             $('.visitor-profile-visit-title')[0].click();
         });
 
-        const dialog = await page.$('.ui-dialog');
+        var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_visit_details');
     });
 
     it('should show action details', async function() {
         await page.click('.visitor-profile-visits li:first-child .visitor-profile-show-actions');
 
-        const dialog = await page.$('.ui-dialog');
+        var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_action_details');
     });
 
     it('should show action tooltip', async function() {
-        action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
+        var action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
         await action.hover();
         await page.waitFor(200); // wait for tooltip to show up
 
-        const tooltip = await page.$('.ui-tooltip');
+        var tooltip = await page.$('.ui-tooltip');
         expect(await tooltip.screenshot()).to.matchImage('visitor_profile_action_tooltip');
     });
 
@@ -97,7 +97,7 @@ describe("Live", function () {
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
 
-        const dialog = await page.$('.ui-dialog');
+        var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_limited');
     });
 
@@ -110,7 +110,7 @@ describe("Live", function () {
 
         await page.waitForNetworkIdle();
 
-        const report = await page.$('.reporting-page');
+        var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log_purged');
     });
 });
