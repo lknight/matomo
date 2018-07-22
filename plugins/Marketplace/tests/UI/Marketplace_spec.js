@@ -48,7 +48,7 @@ describe("Marketplace", function () {
 
     async function captureWithNotification(screenshotName)
     {
-        captureMarketplace(screenshotName, ',#notificationContainer');
+        await captureMarketplace(screenshotName, ',#notificationContainer');
     }
 
     async function captureWithDialog(screenshotName)
