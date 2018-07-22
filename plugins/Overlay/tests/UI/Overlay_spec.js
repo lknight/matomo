@@ -66,6 +66,7 @@ describe("Overlay", function () {
         await page.evaluate(function(){
             $('.dropdown-toggle', $('iframe').contents())[0].click();
         });
+        await page.waitFor(200);
         await removeOptOutIframe(page);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('page_new_links');
     });
