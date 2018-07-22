@@ -15,7 +15,7 @@ describe("UsersManager", function () {
 
     async function assertScreenshotEquals(screenshotName, test)
     {
-        await test();
+        await test(page);
         var content = await page.$('#content');
         expect(await content.screenshot()).to.matchImage(screenshotName);
     }
