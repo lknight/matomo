@@ -94,6 +94,7 @@ describe("Live", function () {
 
         await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_limited');
