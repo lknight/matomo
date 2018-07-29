@@ -112,10 +112,15 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function unsubscribe()
     {
-        $token = Common::getRequestVar('token', null, 'string');
+        $view = new View('@ScheduledReports/unsubscribe');
+        $this->setBasicVariablesView($view);
+        $view->linkTitle = Piwik::getRandomTitle();
+
+        $token = Common::getRequestVar('token', '', 'string');
 
         if (empty($token)) {
-            throw new \Exception('The provided token is invalid');
+            $view->error = Piwik::translate('ScheduledReports_NoTokenProvided');
+            return $view->render();
         }
 
         $subscriptionModel = new SubscriptionModel();
@@ -129,14 +134,12 @@ class Controller extends \Piwik\Plugin\Controller
         });
 
         if (empty($subscription)) {
-            throw new \Exception('No subscription found. Maybe already unsubscribed');
+            $view->error = Piwik::translate('ScheduledReports_NoSubscriptionFound');
+            return $view->render();
         }
 
         $confirm = Common::getRequestVar('confirm', '', 'string');
 
-        $view = new View('@ScheduledReports/unsubscribe');
-        $this->setBasicVariablesView($view);
-        $view->linkTitle = Piwik::getRandomTitle();
         $view->reportName = $report['description'];
 
         $nonce = Common::getRequestVar('nonce', '', 'string');
